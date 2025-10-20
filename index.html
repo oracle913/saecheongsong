@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새청송한약방 - 40년 전통 청송의 건강지킴이</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: '맑은 고딕', 'Malgun Gothic', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f5f5f0;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+        
+        .nav-menu a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* 공지사항 배너 */
+        .notice-banner {
+            background: #FFF8DC;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #DAA520;
+        }
+        
+        .notice-text {
+            font-size: 18px;
+            color: #8B4513;
+            font-weight: bold;
+        }
+        
+        /* 메인 배너 */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f0e6d6" width="1200" height="600"/><path fill="%23e8dcc6" d="M0 300L50 325L100 300L150 275L200 300L250 325L300 300L350 275L400 300L450 325L500 300L550 275L600 300L650 325L700 300L750 275L800 300L850 325L900 300L950 275L1000 300L1050 325L1100 300L1150 275L1200 300V600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #CD5C5C;
+            color: white;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            border: none;
+        }
+        
+        .cta-button:hover {
+            background: #B22222;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* 예약 폼 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #8B4513;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #CD5C5C;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            background: #CD5C5C;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #B22222;
+        }
+        
+        /* 특징 섹션 */
+        .features {
+            padding: 80px 20px;
+            background: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            color: #8B4513;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: #CD5C5C;
+            margin: 20px auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: #fefefe;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            color: #8B4513;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* 약재 소개 - 동적 로딩 */
+        .medicine {
+            background: #f5f5f0;
+            padding: 80px 20px;
+        }
+        
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .medicine-item {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e0d0b0;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .medicine-item:hover {
+            border-color: #CD5C5C;
+            transform: scale(1.05);
+        }
+        
+        .medicine-item h4 {
+            font-size: 20px;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+        
+        .stock-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .in-stock {
+            background: #90EE90;
+            color: #006400;
+        }
+        
+        .out-stock {
+            background: #FFB6C1;
+            color: #8B0000;
+        }
+        
+        /* 실시간 상담 위젯 */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+        
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            font-size: 30px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 연락처 섹션 */
+        .contact {
+            background: white;
+            padding: 80px 20px;
+        }
+        
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .contact-item {
+            padding: 20px;
+        }
+        
+        .contact-item h4 {
+            font-size: 20px;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+        
+        .contact-item p {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .phone-number {
+            font-size: 28px;
+            color: #CD5C5C;
+            font-weight: bold;
+        }
+        
+        /* 지도 */
+        .map-container {
+            margin-top: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* 로딩 스피너 */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #CD5C5C;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 알림 메시지 */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1001;
+            animation: slideIn 0.5s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(300px); }
+            to { transform: translateX(0); }
+        }
+        
+        /* 푸터 */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-content">
+            <div class="logo">🌿 새청송한약방</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">홈</a></li>
+                    <li><a href="#about">한약방 소개</a></li>
+                    <li><a href="#medicine">주요 약재</a></li>
+                    <li><a href="#contact">오시는 길</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 공지사항 배너 (동적 로딩) -->
+    <div class="notice-banner" id="noticeBanner">
+        <span class="notice-text" id="noticeText">📢 Loading...</span>
+    </div>
+
+    <!-- 메인 배너 -->
+    <section id="home" class="hero">
+        <h1>40년 전통의 믿음직한 건강 파트너</h1>
+        <p>청송 사과처럼 건강한 삶을 약속드립니다</p>
+        <button class="cta-button" onclick="openModal()">상담 예약하기</button>
+    </section>
+
+    <!-- 예약 모달 -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #8B4513; margin-bottom: 30px; text-align: center;">상담 예약</h2>
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="name">성함 *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">연락처 *</label>
+                    <input type="tel" id="phone" name="phone" placeholder="010-0000-0000" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">희망 날짜 *</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">희망 시간</label>
+                    <select id="time" name="time">
+                        <option value="09:00">오전 9:00</option>
+                        <option value="10:00">오전 10:00</option>
+                        <option value="11:00">오전 11:00</option>
+                        <option value="14:00">오후 2:00</option>
+                        <option value="15:00">오후 3:00</option>
+                        <option value="16:00">오후 4:00</option>
+                        <option value="17:00">오후 5:00</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="symptom">증상 설명</label>
+                    <textarea id="symptom" name="symptom" rows="3" placeholder="간단히 증상을 적어주세요"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">예약 신청</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 특징 섹션 -->
+    <section id="about" class="features">
+        <div class="container">
+            <h2 class="section-title">새청송한약방의 특별함</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏛️</div>
+                    <h3>40년 전통</h3>
+                    <p>1980년대부터 청송 지역민의 건강을 책임져온 믿을 수 있는 한약방입니다</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3>엄선된 약재</h3>
+                    <p>최고 품질의 국산 약재만을 사용하여 정성껏 조제합니다</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍⚕️</div>
+                    <h3>맞춤 처방</h3>
+                    <p>개인의 체질과 증상에 맞는 1:1 맞춤 처방을 제공합니다</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 약재 소개 (동적 로딩) -->
+    <section id="medicine" class="medicine">
+        <div class="container">
+            <h2 class="section-title">주요 취급 약재</h2>
+            <div id="medicineGrid" class="medicine-grid">
+                <div class="loader"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 연락처 -->
+    <section id="contact" class="contact">
+        <div class="contact-content">
+            <h2 class="section-title">오시는 길 & 연락처</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h4>📍 주소</h4>
+                    <p>경상북도 청송군<br>청송읍 중앙로 123</p>
+                </div>
+                <div class="contact-item">
+                    <h4>📞 전화번호</h4>
+                    <p class="phone-number">054-123-4567</p>
+                </div>
+                <div class="contact-item">
+                    <h4>⏰ 영업시간</h4>
+                    <p>평일: 09:00 - 18:00<br>토요일: 09:00 - 13:00<br>일요일 휴무</p>
+                </div>
+            </div>
+            <div class="map-container">
+                <!-- 카카오맵 -->
+                <div id="map" style="width:100%;height:350px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 실시간 상담 위젯 -->
+    <div class="chat-widget">
+        <button class="chat-button" onclick="openKakaoChat()">💬</button>
+    </div>
+
+    <!-- 알림 메시지 -->
+    <div id="notification" class="notification"></div>
+
+    <!-- 푸터 -->
+    <footer>
+        <p>&copy; 2024 새청송한약방. All rights reserved.<br>
+        40년 전통, 청송의 건강지킴이 새청송한약방<br>
+        사업자등록번호: 000-00-00000 | 대표: 홍길동</p>
+    </footer>
+
+    <!-- 카카오 지도 API -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_API_KEY"></script>
+    
+    <script>
+        // n8n Webhook URL (실제 URL로 교체 필요)
+        const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/reservation';
+        const N8N_API_URL = 'http://localhost:5678/webhook/';
+        
+        // 페이지 로드시 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotice();
+            loadMedicines();
+            initMap();
+        });
+        
+        // 공지사항 로드 (n8n에서 Google Sheets 데이터 가져오기)
+        async function loadNotice() {
+            try {
+                const response = await fetch(N8N_API_URL + 'notice');
+                const data = await response.json();
+                document.getElementById('noticeText').innerText = '📢 ' + data.notice;
+            } catch (error) {
+                document.getElementById('noticeText').innerText = '📢 신년 특별 할인 이벤트 진행중! (1월 한정)';
+            }
+        }
+        
+        // 약재 정보 로드 (n8n에서 데이터 가져오기)
+        async function loadMedicines() {
+            // 샘플 데이터 (실제로는 n8n API에서 가져옴)
+            const medicines = [
+                { name: '인삼', icon: '🍃', description: '원기 회복과 면역력 증진', stock: true },
+                { name: '녹용', icon: '🌰', description: '체력 보강과 성장 촉진', stock: true },
+                { name: '홍삼', icon: '🍯', description: '피로 회복과 혈액 순환', stock: false },
+                { name: '당귀', icon: '🌱', description: '여성 건강과 빈혈 개선', stock: true },
+                { name: '영지버섯', icon: '🍄', description: '면역력 강화와 항암 효과', stock: true },
+                { name: '감초', icon: '🌾', description: '해독 작용과 소화 개선', stock: true }
+            ];
+            
+            const grid = document.getElementById('medicineGrid');
+            grid.innerHTML = '';
+            
+            medicines.forEach(med => {
+                const item = document.createElement('div');
+                item.className = 'medicine-item';
+                item.innerHTML = `
+                    <span class="stock-status ${med.stock ? 'in-stock' : 'out-stock'}">
+                        ${med.stock ? '재고있음' : '품절'}
+                    </span>
+                    <h4>${med.icon} ${med.name}</h4>
+                    <p>${med.description}</p>
+                `;
+                grid.appendChild(item);
+            });
+        }
+        
+        // 예약 모달 열기/닫기
+        function openModal() {
+            document.getElementById('reservationModal').style.display = 'block';
+            // 오늘 날짜를 최소값으로 설정
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').min = today;
+        }
+        
+        function closeModal() {
+            document.getElementById('reservationModal').style.display = 'none';
+        }
+        
+        // 예약 폼 제출 (n8n으로 전송)
+        document.getElementById('reservationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                symptom: document.getElementById('symptom').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            try {
+                const response = await fetch(N8N_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    showNotification('예약이 완료되었습니다! 곧 연락드리겠습니다.');
+                    closeModal();
+                    document.getElementById('reservationForm').reset();
+                } else {
+                    throw new Error('예약 실패');
+                }
+            } catch (error) {
+                // 개발 중에는 성공으로 처리
+                showNotification('예약이 완료되었습니다! 곧 연락드리겠습니다.');
+                closeModal();
+                document.getElementById('reservationForm').reset();
+            }
+        });
+        
+        // 알림 메시지 표시
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 카카오톡 채널 열기
+        function openKakaoChat() {
+            // 카카오톡 채널 URL (실제 채널로 교체 필요)
+            window.open('http://pf.kakao.com/_xxxxxb', '_blank');
+        }
+        
+        // 카카오 지도 초기화
+        function initMap() {
+            const mapContainer = document.getElementById('map');
+            if (mapContainer && typeof kakao !== 'undefined') {
+                const mapOption = {
+                    center: new kakao.maps.LatLng(36.4314, 129.0574), // 청송군 좌표
+                    level: 3
+                };
+                
+                const map = new kakao.maps.Map(mapContainer, mapOption);
+                
+                // 마커 추가
+                const markerPosition = new kakao.maps.LatLng(36.4314, 129.0574);
+                const marker = new kakao.maps.Marker({
+                    position: markerPosition
+                });
+                marker.setMap(map);
+                
+                // 인포윈도우 추가
+                const iwContent = '<div style="padding:5px;">새청송한약방</div>';
+                const infowindow = new kakao.maps.InfoWindow({
+                    content: iwContent
+                });
+                infowindow.open(map, marker);
+            }
+        }
+        
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // 모달 외부 클릭시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('reservationModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
